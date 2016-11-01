@@ -7,7 +7,6 @@
   "dependencies": {
     "dom5": "^1.3.1",
     "parse5": "^2.2.3",
-    "rollup-plugin-html-imports": "file:/usr/local/google/home/blois/src/github/peteblois/rollup-plugin-html-imports",
     "rollup-pluginutils": "^1.5.0"
   },
   "devDependencies": {
