@@ -44,6 +44,12 @@ function importInlineScript(imports, node, scriptIndex, htmlPath) {
   imports.push(line)
 }
 
+function importScriptSrc(imports, node) {
+  const src = dom5.getAttribute(node, 'src');
+  const line = `import {} from './${src}';`;
+  imports.push(line);
+}
+
 /**
  * Generate a JS import statement for the nodes.
  * The nodes are accessed via an import so ordering can be maintained between
@@ -120,6 +126,9 @@ function transformHtmlToJs(htmlDocument, htmlPath) {
     } else if (isInlineScriptNode(node)) {
       importAccumulatedNodes(imports, accumulatedNodes, fragmentIndex++, htmlPath);
       importInlineScript(imports, node, scriptIndex++, htmlPath);
+    } else if (isScriptSrcNode(node)) {
+      importAccumulatedNodes(imports, accumulatedNodes, fragmentIndex++, htmlPath);
+      importScriptSrc(imports, node);
     } else {
       accumulatedNodes.push(node);
     }
@@ -140,6 +149,11 @@ const isHtmlImportNode = dom5.predicates.AND(
 const isInlineScriptNode = dom5.predicates.AND(
   dom5.predicates.hasTagName('script'),
   dom5.predicates.NOT(dom5.predicates.hasAttr('src'))
+);
+
+const isScriptSrcNode = dom5.predicates.AND(
+  dom5.predicates.hasTagName('script'),
+  dom5.predicates.hasAttr('src')
 );
 
 const isImportNode = dom5.predicates.OR(

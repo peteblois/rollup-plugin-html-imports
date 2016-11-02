@@ -38,5 +38,19 @@ describe('rollup-plugin-html-imports', () => {
       assert.notEqual(-1, code.indexOf('some text'), 'Text nodes are maintained.');
       assert.equal(-1, code.indexOf('two comment'), 'First comment should be stripped.');
     });
+  }),
+
+  it('should support es6 imports from inline script elements', () => {
+    return makeBundle({entry: 'fixtures/es6_inline_imports.js'}).then((bundle) => {
+      const { code } = bundle.generate();
+      assert.notEqual(-1, code.indexOf('from a.js'), 'Imports should be included in document.');
+    });
+  }),
+
+  it('should support es6 imports from script source elements', () => {
+    return makeBundle({entry: 'fixtures/es6_script_src.js'}).then((bundle) => {
+      const { code } = bundle.generate();
+      assert.notEqual(-1, code.indexOf('from a.js'), 'Imports should be included in document.');
+    });
   })
 });
