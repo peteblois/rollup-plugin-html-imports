@@ -20,7 +20,7 @@ const inlinedHtmlFiles = new Set();
  */
 function importLink(imports, node) {
   const href = dom5.getAttribute(node, 'href');
-  const line = `import {} from './${href}';`;
+  const line = `import {} from '${href}';`;
   imports.push(line);
 }
 
@@ -178,11 +178,12 @@ export default function htmlImport(options = {}) {
 
       const dirname = path.dirname(importer);
       const scriptPath = path.resolve(path.dirname(importer), importee);
+      return scriptPath;
 
-      if (extractedCode.has(scriptPath)) {
-        return scriptPath;
-      }
-      return null;
+      // if (extractedCode.has(scriptPath)) {
+      //   return scriptPath;
+      // }
+      // return null;
     },
 
     transform(code, id) {
