@@ -6,36 +6,15 @@ Seamless integration between [Rollup](https://github.com/rollup/rollup) and
 This plugin exposes the contents of HTML imports to the Rollup dependency management
 system to allow both HTML and Javascript dependencies to be managed by Rollup.
 
-## Installation
+## What you get
 
-```bash
-yarn add rollup-plugin-html-imports -dev
-yarn add @polymer/paper-input
-yarn install --flat
-```
 
-## Example
+### Declare dependencies on HTML resources from Javascript
 
-**config**
+The transitive closure of dependencies for an HTML import can be referenced directly from
+javascript, from locations such as NPM modules.
 
-```javascript
-import { rollup } from 'rollup';
-import htmlImports from 'rollup-plugin-html-imports';
-
-rollup({
-  entry: 'main.js',
-  plugins: [
-    htmlImports(),
-    nodeResolve({ jsnext: true }),
-    commonjs(),
-    babel({
-      exclude: 'node_modules/**',
-    }),
-  ]
-}).then(...)
-```
-
-**entry**
+From vanilla Javascript:
 
 ```javascript
 import {} from '@polymer/paper-input/paper-input.html';
@@ -44,12 +23,7 @@ const input = document.createElement('paper-input');
 document.body.appendChild(input);
 ```
 
-## What you get
-
-### Declare dependencies on HTML resources from Javascript
-
-The transitive closure of dependencies for an HTML import can be referenced directly from
-javascript, from locations such as NPM modules.
+Or with React:
 
 ```javascript
 import React from 'react'
@@ -98,4 +72,33 @@ Inline scripts are extracted from the HTML file and can have their own set of de
     }
   });
 </script>
+```
+
+## Installation
+
+(Once it's actually published)
+
+```bash
+yarn add rollup-plugin-html-imports -dev
+yarn add @polymer/paper-input
+yarn install --flat
+```
+
+**config**
+
+```javascript
+import { rollup } from 'rollup';
+import htmlImports from 'rollup-plugin-html-imports';
+
+rollup({
+  entry: 'main.js',
+  plugins: [
+    htmlImports(),
+    nodeResolve({ jsnext: true }),
+    commonjs(),
+    babel({
+      exclude: 'node_modules/**',
+    }),
+  ]
+}).then(...)
 ```
