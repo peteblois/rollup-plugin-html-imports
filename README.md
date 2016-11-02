@@ -8,7 +8,6 @@ system to allow both HTML and Javascript dependencies to be managed by Rollup.
 
 ## What you get
 
-
 ### Declare dependencies on HTML resources from Javascript
 
 The transitive closure of dependencies for an HTML import can be referenced directly from
@@ -72,6 +71,45 @@ Inline scripts are extracted from the HTML file and can have their own set of de
     }
   });
 </script>
+```
+
+## How it works
+
+Given an HTML document such as:
+
+```html
+<link rel='import' href='foo.html'>
+<script>
+ ...
+</script>
+<dom-module>
+  ...
+</dom-module>
+<script src='foo.js'></script>
+```
+
+When it is imported, the plugin generates Javascript which looks like:
+
+```javascript
+import {} from 'foo.html';
+import {} from 'component.html.0.js'; // the first inlined script
+import {} from 'component.html.0.html'; // the first HTML fragment
+import {} from 'foo.js';
+```
+
+Where `component.html.0.html` is essentially:
+
+```javascript
+const html = `
+  <dom-module>
+  ...
+  </dom-module>`;
+const range = document.createRange();
+const fragment = range.createContextualFragment(html);
+
+const link = document.createElement('link');
+link.appendChild(fragment);
+document.head.appendChild(link);
 ```
 
 ## Installation
