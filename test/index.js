@@ -44,6 +44,7 @@ describe('rollup-plugin-html-imports', () => {
     return makeBundle({entry: 'fixtures/es6_inline_imports.js'}).then((bundle) => {
       const { code } = bundle.generate();
       assert.notEqual(-1, code.indexOf('from a.js'), 'Imports should be included in document.');
+      assert.equal(-1, code.indexOf('unused function'), 'Unreferenced code is eliminated by rollup.');
     });
   }),
 
