@@ -1,1 +1,1 @@
-import {} from './templates/ordering.html';
+import './templates/ordering.html';

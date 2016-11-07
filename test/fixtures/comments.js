@@ -1,1 +1,1 @@
-import {} from './templates/comments.html';
+import './templates/comments.html';
