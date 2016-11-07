@@ -20,7 +20,7 @@ const inlinedHtmlFiles = new Set();
  */
 function importLink(imports, node) {
   const href = dom5.getAttribute(node, 'href');
-  const line = `import {} from '${href}';`;
+  const line = `import '${href}';`;
   imports.push(line);
 }
 
@@ -40,13 +40,13 @@ function importInlineScript(imports, node, scriptIndex, htmlPath) {
   // Store the actual script contents in extracted code for later inclusion.
   extractedCode.set(scriptPath, scriptContents);
 
-  const line = `import {} from './${scriptName}';`;
+  const line = `import './${scriptName}';`;
   imports.push(line)
 }
 
 function importScriptSrc(imports, node) {
   const src = dom5.getAttribute(node, 'src');
-  const line = `import {} from './${src}';`;
+  const line = `import './${src}';`;
   imports.push(line);
 }
 
@@ -86,7 +86,7 @@ function importAccumulatedNodes(imports, accumulated, fragmentIndex, htmlPath) {
   const fragmentName = `${basename}.${fragmentIndex}.html.js`;
   const fragmentPath = path.resolve(dirname, fragmentName);
 
-  const line = `import {} from './${fragmentName}';`;
+  const line = `import './${fragmentName}';`;
   imports.push(line);
 
   const fragmentScript = `
